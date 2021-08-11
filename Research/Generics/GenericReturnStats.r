@@ -1,6 +1,6 @@
-# ReturnStats class will be produced by a GenericSurvivalStats child class.
+# GenericReturnStats class will be parent for all ReturnStats classes.
 
-setClass("ReturnStats", representation(
+setClass("GenericReturnStats", representation(
 	overallSurvivalRate = "numeric",
 	variableKeySurvivalRate = "numeric",
 	populationPrecentage = "numeric",

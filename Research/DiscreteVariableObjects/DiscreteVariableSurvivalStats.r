@@ -1,4 +1,4 @@
-# UPDATE: Create GenericSurvivalStats parent class.
+source("Research/Generics/GenericSurvivalStats.r")
 
 # DiscreteVariableSurvivalStats class accepts a discrete variable and key; returns a ReturnStats object.
 
@@ -6,8 +6,8 @@
 # NOTE: Is error throwing/catching available in R?
 
 setClass("DiscreteVariableSurvivalStats", representation(
-	variable = "character", 
-	key = "character")
+	key = "character"),
+	contains = "GenericSurvivalStats"
 )
 
 # NOTE: Find right R data structure
