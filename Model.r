@@ -1,5 +1,13 @@
 # Reads training dataset to terminal; verifying dataset is accessible.
-read.csv("Datasets/train.csv")
+trainingSet <- read.csv("Datasets/train.csv")
+
+# str(trainingSet)
+
+# min(trainingSet$Age, na.rm = TRUE)
+# mean(trainingSet$Age, na.rm = TRUE)
+# max(trainingSet$Age, na.rm = TRUE)
+
+mean(trainingSet$Survived) * 100
 
 # Goal:
 # Guess who survived; build a predictive model of who survived based on data given.

@@ -5,6 +5,12 @@ source("Research/Generics/GenericSurvivalStats.r")
 # ADD: Object validation method - will need to verify string variable and string key.
 # NOTE: Is error throwing/catching available in R?
 
+# Responsibilities:
+# 
+
+# Methods:
+# (Object validation)
+
 setClass("DiscreteVariableSurvivalStats", representation(
 	key = "character"),
 	contains = "GenericSurvivalStats"
