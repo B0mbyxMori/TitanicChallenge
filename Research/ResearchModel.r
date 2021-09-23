@@ -1,13 +1,4 @@
-# GenericSurvivalStats class will be the parent for all SurvivalStats classes.
-# trainingSet <- read.csv("../Datasets/train.csv")
-
-# Responsibilities:
-
-# Accept variable from user and read csv table.
-# (Key(s) will be added to child classes)
-# Assemble a ReturnStat object.
-# Return a ReturnStats object to user.
-
+trainingSet <- read.csv("../Datasets/train.csv")
 
 # Assemble:
 
@@ -27,7 +18,8 @@
 # standardDeviation - Reports standard deviation from overall survival
 # rate
 
-setClass("GenericSurvivalStats", representation(
-	# table = ADD: call method to generate table
-	variable = "character")
-)
+overallSurvivalRate <- function() {
+	mean(trainingSet$Survived) * 100
+}
+
+# overallSurvivalRate()
