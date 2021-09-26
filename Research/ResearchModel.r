@@ -2,15 +2,24 @@ trainingSet <- read.csv("../Datasets/train.csv")
 
 # Assemble:
 
-# overallSurvivalRate - Reports survival rate of entire dataset
-	# mean(trainingSet$Survived) * 100
+# survivalRate - Reports survival rate
+	# No arguments - returns survival rate of entire dataset
+	# Column, character (for discrete data) - returns survival rate of character.
+		# For example, survivalRate(Sex, female) would return the survival rate of
+		# all females in column.
+	# Columnm, low_numeric, high_numeric (for continuous data) - returns survival rate
+		# for passengers that fall within the low_numeric and high_numeric range. For example,
+		# survivalRate(Fare, 2, 50) will return the survival rate of all passengers
+		# that paid fare between and including $2 and $50 dollars.
 
-# variableSurvivalRate - Reports overall survival rate of variable
 
-# variableKeySurvivalRate - Reports survival rate of variable and key
-
-# populationPrecentage - Reports the precentage of the population that
-# belongs to the variable/key pair
+# populationPrecentage - Reports the precentage of the population
+	# No arguments - Error, why report 100%?
+	# Column, character - returns the population precentage of character. For example,
+		# survivalRate(Sex, female) returns the precentage of females that were on-board.
+	# Columnm, low_numeric, high_numeric - returns the population precentage of
+		# passengers that fall within the given range. survivalRate(Fare, 2, 50) will
+		# return the population of passagers that paid fair from $2 to $50.
 
 # biasScore - Attempts to guess how bias the information produced may be
 # based on populationPrecentage, NAs, etc.
@@ -23,3 +32,18 @@ overallSurvivalRate <- function() {
 }
 
 # overallSurvivalRate()
+
+# summary(trainingSet)
+
+# 1. PassengerId
+# 2. Survived
+# 3. Pclass
+# 4. Name
+# 5. Sex
+# 6. Age
+# 7. SibSp
+# 8. Parch
+# 9. Ticket
+# 10. Fare
+# 11. Cabin
+# 12. Embarked
