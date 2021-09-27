@@ -14,18 +14,17 @@ trainingSet <- read.csv("../Datasets/train.csv")
 
 
 # populationPrecentage - Reports the precentage of the population
-	# No arguments - Error, why report 100%?
 	# Column, character - returns the population precentage of character. For example,
 		# survivalRate(Sex, female) returns the precentage of females that were on-board.
 	# Columnm, low_numeric, high_numeric - returns the population precentage of
 		# passengers that fall within the given range. survivalRate(Fare, 2, 50) will
 		# return the population of passagers that paid fair from $2 to $50.
 
-# biasScore - Attempts to guess how bias the information produced may be
-# based on populationPrecentage, NAs, etc.
+# confidenceScore - Reports a precentage that guesses how bias the data point may be. The
+# higher the number, the more likely the data point may be bias.
 
-# standardDeviation - Reports standard deviation from overall survival
-# rate
+# overallSurvivalRateDifference - Reports the difference of the specific survival rate from 
+# overall survival rate.
 
 overallSurvivalRate <- function() {
 	mean(trainingSet$Survived) * 100
