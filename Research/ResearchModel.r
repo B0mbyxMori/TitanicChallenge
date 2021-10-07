@@ -23,14 +23,40 @@ trainingSet <- read.csv("../Datasets/train.csv")
 # confidenceScore - Reports a precentage that guesses how bias the data point may be. The
 # higher the number, the more likely the data point may be bias.
 
-# overallSurvivalRateDifference - Reports the difference of the specific survival rate from 
+# survivalRateDifference - Reports the difference of the specific survival rate from 
 # overall survival rate.
+
+survivalRate <- function(column = NULL, variable1 = NULL, variable2 = NULL) {
+	if(missing(column) && missing(variable1) && missing(variable2)) {
+		return(overallSurvivalRate())
+	}
+
+	if(missing(variable2)
+		&& typeof(column) == "character"
+		&& (typeof(variable1) == "character" || typeof(variable1) == "double")) {
+		return("discreteSurvivalRate called.")
+	}
+
+	if(typeof(column) == "character"
+		&& (typeof(variable1) == "character" || typeof(variable1) == "double")
+		&& (typeof(variable2) == "character" || typeof(variable2) == "double")) {
+		return("continuousSurvivalRate called.")
+	}
+
+	return("Bad arugment(s).")
+}
 
 overallSurvivalRate <- function() {
 	mean(trainingSet$Survived) * 100
 }
 
-# overallSurvivalRate()
+# typeof(overallSurvivalRate)
+
+# survivalRate()
+# survivalRate("something", 2)
+# survivalRate("something", "something", "something")
+# survivalRate("something", 2, 1)
+# survivalRate("something", 2L, 1L)
 
 # summary(trainingSet)
 
