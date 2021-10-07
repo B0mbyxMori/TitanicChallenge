@@ -31,6 +31,7 @@ survivalRate <- function(column = NULL, variable1 = NULL, variable2 = NULL) {
 		return(overallSurvivalRate())
 	}
 
+	# ADD: Verify column
 	if(missing(variable2)
 		&& typeof(column) == "character"
 		&& (typeof(variable1) == "character" || typeof(variable1) == "double")) {
@@ -38,27 +39,17 @@ survivalRate <- function(column = NULL, variable1 = NULL, variable2 = NULL) {
 	}
 
 	if(typeof(column) == "character"
-		&& (typeof(variable1) == "character" || typeof(variable1) == "double")
-		&& (typeof(variable2) == "character" || typeof(variable2) == "double")) {
+		&& typeof(variable1) == "double"
+		&& typeof(variable2) == "double") {
 		return("continuousSurvivalRate called.")
 	}
 
-	return("Bad arugment(s).")
+	return("Bad argument(s).") # Throw Error instead. tryCatch
 }
 
 overallSurvivalRate <- function() {
 	mean(trainingSet$Survived) * 100
 }
-
-# typeof(overallSurvivalRate)
-
-# survivalRate()
-# survivalRate("something", 2)
-# survivalRate("something", "something", "something")
-# survivalRate("something", 2, 1)
-# survivalRate("something", 2L, 1L)
-
-# summary(trainingSet)
 
 # 1. PassengerId
 # 2. Survived
