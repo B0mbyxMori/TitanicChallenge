@@ -44,7 +44,7 @@ survivalRate <- function(column = NULL, variable1 = NULL, variable2 = NULL) {
 		return("continuousSurvivalRate called.")
 	}
 
-	return("Bad argument(s).") # Throw Error instead. tryCatch
+	stop("Bad argument(s).")
 }
 
 overallSurvivalRate <- function() {

@@ -2,17 +2,17 @@
 researchModel <- source("ResearchModel.r")
 
 # NOTE: Remove repeated code and review code.
-
+# TO DO: Printed statement display function name with pass/fail information.
 runSurvivalRateTests <- function() {
 	print(survivalRateNoArgumentsReturnsDouble())
 	print(survivalRateCharacterColumnCharacterTestVariable1ReturnsExpectedString(character(), character()))
 	print(survivalRateCharacterColumnDoubleTestVariable1ReturnsExpectedString(character(), double()))
-	print(survivalRateCharacterColumnNotCharacterOrDoubleTestVariable1ReturnsExpectedString(character(), (!double() | !character())))
-	print(survivalRateNotCharacterColumnDoubleTestVariable1ReturnsExpectedString(!character(), double()))
+	print(survivalRateCharacterColumnNotCharacterOrDoubleTestVariable1ReturnsExpectedError(character(), (!double() | !character())))
+	print(survivalRateNotCharacterColumnDoubleTestVariable1ReturnsExpectedError(!character(), double()))
 	print(survivalRateCharacterColumnDoubleTestVariable1DoubleTestVariable2ReturnsExpectedString(character(), double(), double()))
-	print(survivalRateCharacterColumnNotDoubleTestVariable1DoubleTestVariable2ReturnsExpectedString(character(), !double(), double()))
-	print(survivalRateCharacterColumnDoubleTestVariable1NotDoubleTestVariable2ReturnsExpectedString(character(), double(), !double()))
-	print(survivalRateNotCharacterColumnDoubleTestVariable1DoubleTestVariable2ReturnsExpectedString(!character(), double(), double()))
+	print(survivalRateCharacterColumnNotDoubleTestVariable1DoubleTestVariable2ReturnsExpectedError(character(), !double(), double()))
+	print(survivalRateCharacterColumnDoubleTestVariable1NotDoubleTestVariable2ReturnsExpectedError(character(), double(), !double()))
+	print(survivalRateNotCharacterColumnDoubleTestVariable1DoubleTestVariable2ReturnsExpectedError(!character(), double(), double()))
 
 }
 
@@ -42,25 +42,38 @@ survivalRateCharacterColumnDoubleTestVariable1ReturnsExpectedString <- function(
 	return(FALSE)
 }
 
-# NOTE: Function name will change to "...ThrowsError" as ResearchModel grows.
-survivalRateCharacterColumnNotCharacterOrDoubleTestVariable1ReturnsExpectedString <- function(testColumn, testVariable1) {
-	if(survivalRate(testColumn, testVariable1) == "Bad argument(s).") {
-		return(TRUE)
-	}
+survivalRateCharacterColumnNotCharacterOrDoubleTestVariable1ReturnsExpectedError <- function(testColumn, testVariable1) {
+	tryCatch(
+		expr = {
+			survivalRate(testColumn, testVariable1)
+			return(FALSE)
+		},
+		error = function(errorReturned) {
+			if(errorReturned[1] == "Bad argument(s).") {
+				return(TRUE)
+			}
 
-	return(FALSE)
+			return(FALSE)
+		}
+	)
 }
 
-# NOTE: Function name will change to "...ThrowsError" as ResearchModel grows.
-survivalRateNotCharacterColumnDoubleTestVariable1ReturnsExpectedString <- function(testColumn, testVariable1) {
-	if(survivalRate(testColumn, testVariable1) == "Bad argument(s).") {
-		return(TRUE)
-	}
+survivalRateNotCharacterColumnDoubleTestVariable1ReturnsExpectedError <- function(testColumn, testVariable1) {
+	tryCatch(
+		expr = {
+			survivalRate(testColumn, testVariable1)
+			return(FALSE)
+		},
+		error = function(errorReturned) {
+			if(errorReturned[1] == "Bad argument(s).") {
+				return(TRUE)
+			}
 
-	return(FALSE)
+			return(FALSE)
+		}
+	)
 }
 
-# NOTE: Function name will change to "...ReturnsDouble" as ResearchModel grows.
 survivalRateCharacterColumnDoubleTestVariable1DoubleTestVariable2ReturnsExpectedString <- function(testColumn, testVariable1, testVariable2) {
 	if(survivalRate(testColumn, testVariable1, testVariable2) == "continuousSurvivalRate called.") {
 		return(TRUE)
@@ -69,31 +82,52 @@ survivalRateCharacterColumnDoubleTestVariable1DoubleTestVariable2ReturnsExpected
 	return(FALSE)
 }
 
-# NOTE: Function name will change to "...ThrowsError" as ResearchModel grows.
-survivalRateCharacterColumnNotDoubleTestVariable1DoubleTestVariable2ReturnsExpectedString <- function(testColumn, testVariable1, testVariable2) {
-	if(survivalRate(testColumn, testVariable1, testVariable2) == "Bad argument(s).") {
-		return(TRUE)
-	}
+survivalRateCharacterColumnNotDoubleTestVariable1DoubleTestVariable2ReturnsExpectedError <- function(testColumn, testVariable1, testVariable2) {
+	tryCatch(
+		expr = {
+			survivalRate(testColumn, testVariable1, testVariable2)
+			return(FALSE)
+		},
+		error = function(errorReturned) {
+			if(errorReturned[1] == "Bad argument(s).") {
+				return(TRUE)
+			}
 
-	return(FALSE)
+			return(FALSE)
+		}
+	)
 }
 
-# NOTE: Function name will change to "...ThrowsError" as ResearchModel grows.
-survivalRateCharacterColumnDoubleTestVariable1NotDoubleTestVariable2ReturnsExpectedString <- function(testColumn, testVariable1, testVariable2) {
-	if(survivalRate(testColumn, testVariable1, testVariable2) == "Bad argument(s).") {
-		return(TRUE)
-	}
+survivalRateCharacterColumnDoubleTestVariable1NotDoubleTestVariable2ReturnsExpectedError <- function(testColumn, testVariable1, testVariable2) {
+	tryCatch(
+		expr = {
+			survivalRate(testColumn, testVariable1, testVariable2)
+			return(FALSE)
+		},
+		error = function(errorReturned) {
+			if(errorReturned[1] == "Bad argument(s).") {
+				return(TRUE)
+			}
 
-	return(FALSE)
+			return(FALSE)
+		}
+	)
 }
 
-# NOTE: Function name will change to "...ThrowsError" as ResearchModel grows.
-survivalRateNotCharacterColumnDoubleTestVariable1DoubleTestVariable2ReturnsExpectedString <- function(testColumn, testVariable1, testVariable2) {
-	if(survivalRate(testColumn, testVariable1, testVariable2) == "Bad argument(s).") {
-		return(TRUE)
-	}
+survivalRateNotCharacterColumnDoubleTestVariable1DoubleTestVariable2ReturnsExpectedError <- function(testColumn, testVariable1, testVariable2) {
+	tryCatch(
+		expr = {
+			survivalRate(testColumn, testVariable1, testVariable2)
+			return(FALSE)
+		},
+		error = function(errorReturned) {
+			if(errorReturned[1] == "Bad argument(s).") {
+				return(TRUE)
+			}
 
-	return(FALSE)
+			return(FALSE)
+		}
+	)
 }
 
 # Test Suite
