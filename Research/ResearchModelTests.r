@@ -3,6 +3,7 @@ researchModel <- source("ResearchModel.r")
 
 # NOTE: Remove repeated code and review code.
 # TO DO: Printed statement display function name with pass/fail information.
+# TO DO: Separate functions.
 runSurvivalRateTests <- function() {
 	print(survivalRateNoArgumentsReturnsDouble())
 	print(survivalRateCharacterColumnCharacterTestVariable1ReturnsExpectedString(character(), character()))
@@ -16,6 +17,7 @@ runSurvivalRateTests <- function() {
 
 }
 
+## START: survivalRate Tests
 survivalRateNoArgumentsReturnsDouble <- function() {
 	if(typeof(survivalRate()) == "double") {
 		return(TRUE)
@@ -129,6 +131,18 @@ survivalRateNotCharacterColumnDoubleTestVariable1DoubleTestVariable2ReturnsExpec
 		}
 	)
 }
+## END: survivalRate Tests
+
+
+## START: discreteSurvivalRate Tests
+
+## END: discreteSurvivalRate Tests
+
+
+## START: continuousSurvivalRate Tests
+
+## END: continuousSurvivalRate Tests
+
 
 # Test Suite
 runTests <- function() {
