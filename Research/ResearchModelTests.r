@@ -14,7 +14,8 @@ runSurvivalRateTests <- function() {
 	print(survivalRateCharacterColumnNotDoubleTestVariable1DoubleTestVariable2ReturnsExpectedError(character(), !double(), double()))
 	print(survivalRateCharacterColumnDoubleTestVariable1NotDoubleTestVariable2ReturnsExpectedError(character(), double(), !double()))
 	print(survivalRateNotCharacterColumnDoubleTestVariable1DoubleTestVariable2ReturnsExpectedError(!character(), double(), double()))
-
+	print(overallSurvivalRateReturnsDouble())
+	print(discreteSurvivalRateReturnsDouble(character(), character()) # Assumes testVariable1 is character for now.
 }
 
 ## START: survivalRate Tests
@@ -134,8 +135,25 @@ survivalRateNotCharacterColumnDoubleTestVariable1DoubleTestVariable2ReturnsExpec
 ## END: survivalRate Tests
 
 
-## START: discreteSurvivalRate Tests
+## START: overallSurvivalRate Tests
+overallSurvivalRateReturnsDouble <- function() {
+	if(typeof(overallSurvivalRate()) == "double") {
+		return(TRUE)
+	}
 
+	return(FALSE)
+}
+## END: overallSurvivalRate Tests
+
+
+## START: discreteSurvivalRate Tests
+discreteSurvivalRateReturnsDouble <- function(testColumn, testVariable1) {
+	if(typeof(discreteSurvivalRate(testColumn, testVariable1)) == "double") {
+		return(TRUE)
+	}
+
+	return(FALSE)
+}
 ## END: discreteSurvivalRate Tests
 
 
