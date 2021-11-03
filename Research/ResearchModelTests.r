@@ -15,7 +15,8 @@ runSurvivalRateTests <- function() {
 	print(survivalRateCharacterColumnDoubleTestVariable1NotDoubleTestVariable2ReturnsExpectedError(character(), double(), !double()))
 	print(survivalRateNotCharacterColumnDoubleTestVariable1DoubleTestVariable2ReturnsExpectedError(!character(), double(), double()))
 	print(overallSurvivalRateReturnsDouble())
-	print(discreteSurvivalRateReturnsDouble(character(), character()) # Assumes testVariable1 is character for now.
+	print(discreteSurvivalRateReturnsDouble(character(), character())) # Assumes testVariable1 is character for now.
+	print(continuousSurvivalRateReturnsDouble(character(), double(), double()))
 }
 
 ## START: survivalRate Tests
@@ -136,6 +137,7 @@ survivalRateNotCharacterColumnDoubleTestVariable1DoubleTestVariable2ReturnsExpec
 
 
 ## START: overallSurvivalRate Tests
+# NOTE: Kinda pointless as it's just testing an external function's return (mean).
 overallSurvivalRateReturnsDouble <- function() {
 	if(typeof(overallSurvivalRate()) == "double") {
 		return(TRUE)
@@ -158,7 +160,13 @@ discreteSurvivalRateReturnsDouble <- function(testColumn, testVariable1) {
 
 
 ## START: continuousSurvivalRate Tests
+continuousSurvivalRateReturnsDouble <- function(testColumn, testVariable1, testVariable2) {
+	if(typeof(continuousSurvivalRate(testColumn, testVariable1, testVariable2)) == "double") {
+		return(TRUE)
+	}
 
+	return(FALSE)
+}
 ## END: continuousSurvivalRate Tests
 
 

@@ -4,7 +4,7 @@ trainingSet <- read.csv("../Datasets/train.csv")
 # populationPrecentage - Reports the precentage of the population
 	# Column, character - returns the population precentage of character. For example,
 		# survivalRate(Sex, female) returns the precentage of females that were on-board.
-	# Columnm, low_numeric, high_numeric - returns the population precentage of
+	# Column, low_numeric, high_numeric - returns the population precentage of
 		# passengers that fall within the given range. survivalRate(Fare, 2, 50) will
 		# return the population of passagers that paid fair from $2 to $50.
 
@@ -57,23 +57,35 @@ overallSurvivalRate <- function() {
 # For example, survivalRate(Sex, female) would return the survival rate of
 # all females in column.
 # unique(trainingSet$Sex) # Back pocket function
+# TO DO: add na.omit(...) wrapper to completeDiscreteSurvivalRateDataFrame - na may cause
+# bugs with certain data.
 discreteSurvivalRate <- function(column, variable1) {
 	completeDiscreteSurvivalRateDataFrame = data.frame(trainingSet$Survived, trainingSet[column])
-	subsetDiscreteSurvivalRateDataFrame = subset(completeDiscreteSurvivalRateDataFrame, completeDiscreteSurvivalRateDataFrame[column] == variable1)
+	subsetDiscreteSurvivalRateDataFrame = subset(completeDiscreteSurvivalRateDataFrame,
+		completeDiscreteSurvivalRateDataFrame[column] == variable1)
 
 	mean(subsetDiscreteSurvivalRateDataFrame$trainingSet.Survived) * 100
 }
 
-# Columnm, low_numeric, high_numeric (for continuous data) - returns survival rate
+# Column, low_numeric, high_numeric (for continuous data) - returns survival rate
 # for passengers that fall within the low_numeric and high_numeric range. For example,
 # survivalRate(Fare, 2, 50) will return the survival rate of all passengers
 # that paid fare between and including $2 and $50 dollars.
-# continuousSurvivalRate <- function(column, variable1, variable2) {
+continuousSurvivalRate <- function(column, variable1, variable2) {
+	completeContinousSurvivalRateDataFrame = na.omit(data.frame(trainingSet$Survived, trainingSet[column]))
+	subsetContinousSurvivalRateDataFrame = subset(completeContinousSurvivalRateDataFrame,
+		variable1 <= completeContinousSurvivalRateDataFrame[column] & variable2 >= completeContinousSurvivalRateDataFrame[column])
 
-# }
+	mean(subsetContinousSurvivalRateDataFrame$trainingSet.Survived) * 100
+}
 
 ## REMOVE
 discreteSurvivalRate("Sex", "male") # Returns 18.89081
 discreteSurvivalRate("Sex", "female") # Returns 74.20382
+## REMOVE
 
+
+## REMOVE
+continuousSurvivalRate("Age", 0, 1) # Returns 85.71429
+continuousSurvivalRate("Age", 50, 51) # Returns 41.17647
 ## REMOVE
