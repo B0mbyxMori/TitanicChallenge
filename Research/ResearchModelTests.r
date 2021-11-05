@@ -14,9 +14,12 @@ runSurvivalRateTests <- function() {
 	print(survivalRateCharacterColumnNotDoubleTestVariable1DoubleTestVariable2ReturnsExpectedError(character(), !double(), double()))
 	print(survivalRateCharacterColumnDoubleTestVariable1NotDoubleTestVariable2ReturnsExpectedError(character(), double(), !double()))
 	print(survivalRateNotCharacterColumnDoubleTestVariable1DoubleTestVariable2ReturnsExpectedError(!character(), double(), double()))
-	print(overallSurvivalRateReturnsDouble())
+	print(returnSurvivalRateMeanEmptyParameterReturnsDouble())
+	# print(overallSurvivalRateReturnsDouble())
 	print(discreteSurvivalRateReturnsDouble(character(), character())) # Assumes testVariable1 is character for now.
 	print(continuousSurvivalRateReturnsDouble(character(), double(), double()))
+	print(survivalRateDifferenceReturnsDouble(double()))
+
 }
 
 ## START: survivalRate Tests
@@ -136,15 +139,36 @@ survivalRateNotCharacterColumnDoubleTestVariable1DoubleTestVariable2ReturnsExpec
 ## END: survivalRate Tests
 
 
-## START: overallSurvivalRate Tests
-# NOTE: Kinda pointless as it's just testing an external function's return (mean).
-overallSurvivalRateReturnsDouble <- function() {
-	if(typeof(overallSurvivalRate()) == "double") {
+## TO DO: Add tests.
+## START: returnSurvivalRateMean Tests
+returnSurvivalRateMeanEmptyParameterReturnsDouble <- function() {
+	if(typeof(returnSurvivalRateMean()) == "double") {
 		return(TRUE)
 	}
 
 	return(FALSE)
 }
+
+# TO DO: Create data frame stub.
+# returnSurvivalRateMeanObtainedDataFrameReturnsDouble <- function(testObtainedDataFrame) {
+	# if(typeof(returnSurvivalRateMean(testObtainedDataFrame)) == "double") {
+		# return(TRUE)
+	# }
+
+	# return(FALSE)
+# }
+## END: returnSurvivalRateMean Tests
+
+
+## START: overallSurvivalRate Tests
+# NOTE: Kinda pointless as it's just testing an external function's return (mean).
+# overallSurvivalRateReturnsDouble <- function() {
+# 	if(typeof(overallSurvivalRate()) == "double") {
+# 		return(TRUE)
+# 	}
+
+# 	return(FALSE)
+# }
 ## END: overallSurvivalRate Tests
 
 
@@ -168,6 +192,27 @@ continuousSurvivalRateReturnsDouble <- function(testColumn, testVariable1, testV
 	return(FALSE)
 }
 ## END: continuousSurvivalRate Tests
+
+
+## START: populationPrecentage Tests
+
+## END: populationPrecentage Tests
+
+
+## START: survivalRateDifference Tests
+survivalRateDifferenceReturnsDouble <- function(testObtainedSurvivalRate) {
+	if(typeof(survivalRateDifference(testObtainedSurvivalRate)) == "double") {
+		return(TRUE)
+	}
+
+	return(FALSE)
+}
+## END: survivalRateDifference Tests
+
+
+## START: confidenceScore Tests
+
+## END: confidenceScore Tests
 
 
 # Test Suite
