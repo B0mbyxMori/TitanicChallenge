@@ -15,6 +15,7 @@ runSurvivalRateTests <- function() {
 	print(survivalRateCharacterColumnDoubleTestVariable1NotDoubleTestVariable2ReturnsExpectedError(character(), double(), !double()))
 	print(survivalRateNotCharacterColumnDoubleTestVariable1DoubleTestVariable2ReturnsExpectedError(!character(), double(), double()))
 	print(returnSurvivalRateMeanEmptyParameterReturnsDouble())
+	print(returnSurvivalRateMeanObtainedDataFrameReturnsDouble(data.frame("trainingSet.Survived" = c(0,0,1,1))))
 	# print(overallSurvivalRateReturnsDouble())
 	print(discreteSurvivalRateReturnsDouble(character(), character())) # Assumes testVariable1 is character for now.
 	print(continuousSurvivalRateReturnsDouble(character(), double(), double()))
@@ -149,14 +150,14 @@ returnSurvivalRateMeanEmptyParameterReturnsDouble <- function() {
 	return(FALSE)
 }
 
-# TO DO: Create data frame stub.
-# returnSurvivalRateMeanObtainedDataFrameReturnsDouble <- function(testObtainedDataFrame) {
-	# if(typeof(returnSurvivalRateMean(testObtainedDataFrame)) == "double") {
-		# return(TRUE)
-	# }
+# NOTE: Data frame fake created during function call.
+returnSurvivalRateMeanObtainedDataFrameReturnsDouble <- function(testObtainedDataFrame) {
+	if(typeof(returnSurvivalRateMean(testObtainedDataFrame)) == "double") {
+		return(TRUE)
+	}
 
-	# return(FALSE)
-# }
+	return(FALSE)
+}
 ## END: returnSurvivalRateMean Tests
 
 

@@ -1,3 +1,6 @@
+# TO DO: Refactor ...survivalRate functions to return data frame
+# to increase flexibility.
+
 trainingSet <- read.csv("../Datasets/train.csv")
 
 # survivalRate - Reports survival rate
