@@ -1,6 +1,3 @@
-# TO DO: Refactor ...survivalRate functions to return data frame
-# to increase flexibility.
-
 trainingSet <- read.csv("../Datasets/train.csv")
 
 # survivalRate - Reports survival rate
@@ -12,13 +9,13 @@ survivalRate <- function(column = NULL, variable1 = NULL, variable2 = NULL) {
 	if(missing(variable2)
 		&& typeof(column) == "character"
 		&& (typeof(variable1) == "character" || typeof(variable1) == "double")) {
-		return("discreteSurvivalRate called.")
+		return(returnSurvivalRateMean(buildDiscreteSurvivalList(column, variable1)))
 	}
 
 	if(typeof(column) == "character"
 		&& typeof(variable1) == "double"
 		&& typeof(variable2) == "double") {
-		return("continuousSurvivalRate called.")
+		return(returnSurvivalRateMean(buildContinuousSurvivalList(column, variable1, variable2)))
 	}
 
 	stop("Bad argument(s).") # TO DO: Deliver detailed error message.
@@ -30,40 +27,39 @@ overallSurvivalRate <- function() {
 }
 
 # returnSurvivalRateMean - Returns overallSurvivalRate if missing argument.
-# If data frame is supplied, returns the survival rate.
-# TO DO: Add data type validation
+# If list is supplied, returns the survival rate.
+# TO DO: Add list validation test
 returnSurvivalRateMean <- function(obtainedDataFrame = NULL) {
 	if(missing(obtainedDataFrame)) {
 		return(overallSurvivalRate())
 	}
 
+	if(typeof(obtainedDataFrame) != "list") {
+		stop("Bad argument.") # TO DO: Deliver detailed error message and verify columns.
+	}
+
 	mean(obtainedDataFrame$trainingSet.Survived) * 100
 }
 
-# Column, variable1 (for discrete data) - returns survival rate of variable1.
-# For example, survivalRate(Sex, female) would return the survival rate of
-# all females in column.
+# Column, variable1 (for discrete data) - returns list with 2 columns: the
+# column filtered to include variable1 and Survived.
 # unique(trainingSet$Sex) # Back pocket function
-discreteSurvivalRate <- function(column, variable1) {
-	completeDiscreteSurvivalRateDataFrame = na.omit(data.frame(trainingSet$Survived, trainingSet[column]))
-	subsetDiscreteSurvivalRateDataFrame = subset(completeDiscreteSurvivalRateDataFrame,
-		completeDiscreteSurvivalRateDataFrame[column] == variable1)
+buildDiscreteSurvivalList <- function(column, variable1) {
+	completeDiscreteSurvivalDataFrame = na.omit(data.frame(trainingSet$Survived, trainingSet[column]))
+	subsetDiscreteSurvivalList = subset(completeDiscreteSurvivalDataFrame,
+		completeDiscreteSurvivalDataFrame[column] == variable1)
 
-	# mean(subsetDiscreteSurvivalRateDataFrame$trainingSet.Survived) * 100
-	returnSurvivalRateMean(subsetDiscreteSurvivalRateDataFrame)
+	return(subsetDiscreteSurvivalList)
 }
 
-# Column, low_numeric, high_numeric (for continuous data) - returns survival rate
-# for passengers that fall within the low_numeric and high_numeric range. For example,
-# survivalRate(Fare, 2, 50) will return the survival rate of all passengers
-# that paid fare between and including $2 and $50 dollars.
-continuousSurvivalRate <- function(column, variable1, variable2) {
-	completeContinousSurvivalRateDataFrame = na.omit(data.frame(trainingSet$Survived, trainingSet[column]))
-	subsetContinousSurvivalRateDataFrame = subset(completeContinousSurvivalRateDataFrame,
-		variable1 <= completeContinousSurvivalRateDataFrame[column] & variable2 >= completeContinousSurvivalRateDataFrame[column])
+# Column, low_numeric, high_numeric (for continuous data) - returns list with 2 columns:
+# the column filtered to include data between variable1 and variable2 inclusive and Survived.
+buildContinuousSurvivalList <- function(column, variable1, variable2) {
+	completeContinousSurvivalDataFrame = na.omit(data.frame(trainingSet$Survived, trainingSet[column]))
+	subsetContinousSurvivalList = subset(completeContinousSurvivalDataFrame,
+		variable1 <= completeContinousSurvivalDataFrame[column] & variable2 >= completeContinousSurvivalDataFrame[column])
 
-	# mean(subsetContinousSurvivalRateDataFrame$trainingSet.Survived) * 100
-	returnSurvivalRateMean(subsetContinousSurvivalRateDataFrame)
+	return(subsetContinousSurvivalList)
 }
 
 # populationPrecentage - Reports the precentage of the population
@@ -72,6 +68,7 @@ continuousSurvivalRate <- function(column, variable1, variable2) {
 	# Column, low_numeric, high_numeric - returns the population precentage of
 		# passengers that fall within the given range. survivalRate(Fare, 2, 50) will
 		# return the population of passagers that paid fair from $2 to $50.
+## nrow(...) builds
 
 
 # survivalRateDifference - Reports the difference of the obtained (discrete or continuous) survival rate from
@@ -82,20 +79,3 @@ survivalRateDifference <- function(obtainedSurvivalRate) {
 
 # confidenceScore - Reports a precentage that guesses how bias the data point may be. The
 # higher the number, the more likely the data point may be bias.
-
-## REMOVE
-discreteSurvivalRate("Sex", "male") # Returns 18.89081
-discreteSurvivalRate("Sex", "female") # Returns 74.20382
-## REMOVE
-
-
-## REMOVE
-continuousSurvivalRate("Age", 0, 1) # Returns 85.71429
-continuousSurvivalRate("Age", 50, 51) # Returns 41.17647
-## REMOVE
-
-
-## REMOVE
-survivalRateDifference(continuousSurvivalRate("Age", 0, 1))
-survivalRateDifference(continuousSurvivalRate("Age", 50, 51))
-## REMOVE

@@ -6,19 +6,19 @@ researchModel <- source("ResearchModel.r")
 # TO DO: Separate functions.
 runSurvivalRateTests <- function() {
 	print(survivalRateNoArgumentsReturnsDouble())
-	print(survivalRateCharacterColumnCharacterTestVariable1ReturnsExpectedString(character(), character()))
-	print(survivalRateCharacterColumnDoubleTestVariable1ReturnsExpectedString(character(), double()))
+	print(survivalRateCharacterColumnCharacterTestVariable1ReturnsDouble(character(), character()))
+	print(survivalRateCharacterColumnDoubleTestVariable1ReturnsDouble(character(), double()))
 	print(survivalRateCharacterColumnNotCharacterOrDoubleTestVariable1ReturnsExpectedError(character(), (!double() | !character())))
 	print(survivalRateNotCharacterColumnDoubleTestVariable1ReturnsExpectedError(!character(), double()))
-	print(survivalRateCharacterColumnDoubleTestVariable1DoubleTestVariable2ReturnsExpectedString(character(), double(), double()))
+	print(survivalRateCharacterColumnDoubleTestVariable1DoubleTestVariable2ReturnsDouble(character(), double(), double()))
 	print(survivalRateCharacterColumnNotDoubleTestVariable1DoubleTestVariable2ReturnsExpectedError(character(), !double(), double()))
 	print(survivalRateCharacterColumnDoubleTestVariable1NotDoubleTestVariable2ReturnsExpectedError(character(), double(), !double()))
 	print(survivalRateNotCharacterColumnDoubleTestVariable1DoubleTestVariable2ReturnsExpectedError(!character(), double(), double()))
 	print(returnSurvivalRateMeanEmptyParameterReturnsDouble())
-	print(returnSurvivalRateMeanObtainedDataFrameReturnsDouble(data.frame("trainingSet.Survived" = c(0,0,1,1))))
+	print(returnSurvivalRateMeanObtainedListReturnsDouble(data.frame("trainingSet.Survived" = c(0,0,1,1))))
 	# print(overallSurvivalRateReturnsDouble())
-	print(discreteSurvivalRateReturnsDouble(character(), character())) # Assumes testVariable1 is character for now.
-	print(continuousSurvivalRateReturnsDouble(character(), double(), double()))
+	print(buildDiscreteSurvivalListReturnsList(character(), character())) # Assumes testVariable1 is character for now.
+	print(buildContinuousSurvivalListReturnsList(character(), double(), double()))
 	print(survivalRateDifferenceReturnsDouble(double()))
 
 }
@@ -32,18 +32,16 @@ survivalRateNoArgumentsReturnsDouble <- function() {
 	return(FALSE)
 }
 
-# NOTE: Function name will change to "...ReturnsDouble" as ResearchModel grows.
-survivalRateCharacterColumnCharacterTestVariable1ReturnsExpectedString <- function(testColumn, testVariable1) {
-	if(survivalRate(testColumn, testVariable1) == "discreteSurvivalRate called.") {
+survivalRateCharacterColumnCharacterTestVariable1ReturnsDouble <- function(testColumn, testVariable1) {
+	if(typeof(survivalRate(testColumn, testVariable1)) == "double") {
 		return(TRUE)
 	}
 
 	return(FALSE)
 }
 
-# NOTE: Function name will change to "...ReturnsDouble" as ResearchModel grows.
-survivalRateCharacterColumnDoubleTestVariable1ReturnsExpectedString <- function(testColumn, testVariable1) {
-	if(survivalRate(testColumn, testVariable1) == "discreteSurvivalRate called.") {
+survivalRateCharacterColumnDoubleTestVariable1ReturnsDouble <- function(testColumn, testVariable1) {
+	if(typeof(survivalRate(testColumn, testVariable1)) == "double") {
 		return(TRUE)
 	}
 
@@ -82,8 +80,8 @@ survivalRateNotCharacterColumnDoubleTestVariable1ReturnsExpectedError <- functio
 	)
 }
 
-survivalRateCharacterColumnDoubleTestVariable1DoubleTestVariable2ReturnsExpectedString <- function(testColumn, testVariable1, testVariable2) {
-	if(survivalRate(testColumn, testVariable1, testVariable2) == "continuousSurvivalRate called.") {
+survivalRateCharacterColumnDoubleTestVariable1DoubleTestVariable2ReturnsDouble <- function(testColumn, testVariable1, testVariable2) {
+	if(typeof(survivalRate(testColumn, testVariable1, testVariable2)) == "double") {
 		return(TRUE)
 	}
 
@@ -151,7 +149,7 @@ returnSurvivalRateMeanEmptyParameterReturnsDouble <- function() {
 }
 
 # NOTE: Data frame fake created during function call.
-returnSurvivalRateMeanObtainedDataFrameReturnsDouble <- function(testObtainedDataFrame) {
+returnSurvivalRateMeanObtainedListReturnsDouble <- function(testObtainedDataFrame) {
 	if(typeof(returnSurvivalRateMean(testObtainedDataFrame)) == "double") {
 		return(TRUE)
 	}
@@ -173,26 +171,26 @@ returnSurvivalRateMeanObtainedDataFrameReturnsDouble <- function(testObtainedDat
 ## END: overallSurvivalRate Tests
 
 
-## START: discreteSurvivalRate Tests
-discreteSurvivalRateReturnsDouble <- function(testColumn, testVariable1) {
-	if(typeof(discreteSurvivalRate(testColumn, testVariable1)) == "double") {
+## START: buildDiscreteSurvivalList Tests
+buildDiscreteSurvivalListReturnsList <- function(testColumn, testVariable1) {
+	if(typeof(buildDiscreteSurvivalList(testColumn, testVariable1)) == "list") {
 		return(TRUE)
 	}
 
 	return(FALSE)
 }
-## END: discreteSurvivalRate Tests
+## END: buildDiscreteSurvivalList Tests
 
 
-## START: continuousSurvivalRate Tests
-continuousSurvivalRateReturnsDouble <- function(testColumn, testVariable1, testVariable2) {
-	if(typeof(continuousSurvivalRate(testColumn, testVariable1, testVariable2)) == "double") {
+## START: buildContinuousSurvivalList Tests
+buildContinuousSurvivalListReturnsList <- function(testColumn, testVariable1, testVariable2) {
+	if(typeof(buildContinuousSurvivalList(testColumn, testVariable1, testVariable2)) == "list") {
 		return(TRUE)
 	}
 
 	return(FALSE)
 }
-## END: continuousSurvivalRate Tests
+## END: buildContinuousSurvivalList Tests
 
 
 ## START: populationPrecentage Tests
