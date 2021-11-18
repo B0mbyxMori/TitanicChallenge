@@ -16,9 +16,12 @@ runSurvivalRateTests <- function() {
 	print(survivalRateNotCharacterColumnDoubleTestVariable1DoubleTestVariable2ReturnsExpectedError(!character(), double(), double()))
 	print(returnSurvivalRateMeanEmptyParameterReturnsDouble())
 	print(returnSurvivalRateMeanObtainedListReturnsDouble(data.frame("trainingSet.Survived" = c(0,0,1,1))))
+	print(returnSurvivalRateMeanNotListReturnsError(!list()))
 	# print(overallSurvivalRateReturnsDouble())
 	print(buildDiscreteSurvivalListReturnsList(character(), character())) # Assumes testVariable1 is character for now.
 	print(buildContinuousSurvivalListReturnsList(character(), double(), double()))
+	print(populationPercentageReturnsDouble(matrix(c(0, 0, 0, 0), nrow = 2))) # Fake is double for now.
+	print(populationPercentageMissingListReturnsError())
 	print(survivalRateDifferenceReturnsDouble(double()))
 
 }
@@ -148,9 +151,25 @@ returnSurvivalRateMeanEmptyParameterReturnsDouble <- function() {
 	return(FALSE)
 }
 
+returnSurvivalRateMeanNotListReturnsError <- function(testObtainedObject) {
+	tryCatch(
+		expr = {
+			returnSurvivalRateMean(testObtainedObject)
+			return(FALSE)
+		},
+		error = function(errorReturned) {
+			if(errorReturned[1] == "Bad argument.") {
+				return(TRUE)
+			}
+
+			return(FALSE)
+		}
+	)
+}
+
 # NOTE: Data frame fake created during function call.
-returnSurvivalRateMeanObtainedListReturnsDouble <- function(testObtainedDataFrame) {
-	if(typeof(returnSurvivalRateMean(testObtainedDataFrame)) == "double") {
+returnSurvivalRateMeanObtainedListReturnsDouble <- function(testObtainedList) {
+	if(typeof(returnSurvivalRateMean(testObtainedList)) == "double") {
 		return(TRUE)
 	}
 
@@ -193,9 +212,31 @@ buildContinuousSurvivalListReturnsList <- function(testColumn, testVariable1, te
 ## END: buildContinuousSurvivalList Tests
 
 
-## START: populationPrecentage Tests
+## START: populationPercentage Tests
+populationPercentageReturnsDouble <- function(testObtainedList) {
+	if(typeof(populationPercentage(testObtainedList)) == "double") {
+		return(TRUE)
+	}
 
-## END: populationPrecentage Tests
+	return(FALSE)
+}
+
+populationPercentageMissingListReturnsError <- function() {
+	tryCatch(
+		expr = {
+			populationPercentage()
+			return(FALSE)
+		},
+		error = function(errorReturned) {
+			if(errorReturned[1] == "Requires list.") {
+				return(TRUE)
+			}
+
+			return(FALSE)
+		}
+	)
+}
+## END: populationPercentage Tests
 
 
 ## START: survivalRateDifference Tests

@@ -1,3 +1,4 @@
+# TO DO: Deal with NAs
 trainingSet <- read.csv("../Datasets/train.csv")
 
 # survivalRate - Reports survival rate
@@ -28,17 +29,18 @@ overallSurvivalRate <- function() {
 
 # returnSurvivalRateMean - Returns overallSurvivalRate if missing argument.
 # If list is supplied, returns the survival rate.
-# TO DO: Add list validation test
-returnSurvivalRateMean <- function(obtainedDataFrame = NULL) {
-	if(missing(obtainedDataFrame)) {
+returnSurvivalRateMean <- function(obtainedList = NULL) {
+	if(missing(obtainedList)) {
 		return(overallSurvivalRate())
 	}
 
-	if(typeof(obtainedDataFrame) != "list") {
-		stop("Bad argument.") # TO DO: Deliver detailed error message and verify columns.
+	if(typeof(obtainedList) != "list") {
+		stop("Bad argument.") # TO DO: Deliver detailed error message
 	}
 
-	mean(obtainedDataFrame$trainingSet.Survived) * 100
+	# TO DO: Create verify column function and call it here
+
+	mean(obtainedList$trainingSet.Survived) * 100
 }
 
 # Column, variable1 (for discrete data) - returns list with 2 columns: the
@@ -62,13 +64,18 @@ buildContinuousSurvivalList <- function(column, variable1, variable2) {
 	return(subsetContinousSurvivalList)
 }
 
-# populationPrecentage - Reports the precentage of the population
-	# Column, character - returns the population precentage of character. For example,
-		# survivalRate(Sex, female) returns the precentage of females that were on-board.
-	# Column, low_numeric, high_numeric - returns the population precentage of
-		# passengers that fall within the given range. survivalRate(Fare, 2, 50) will
-		# return the population of passagers that paid fair from $2 to $50.
-## nrow(...) builds
+# populationPercentage - Returns the percentage the obtained population is of the total population.
+populationPercentage <- function(obtainedList) {
+	if(missing(obtainedList)) {
+		stop("Requires list.") # TO DO: Deliver detailed error message
+	}
+
+	# TO DO: Create verify column function and call it here (NOTE: Will break populationPercentageReturnsDouble test b/c fake.)
+
+	populationPercentage = (nrow(obtainedList) / nrow(trainingSet)) * 100
+
+	return(populationPercentage)
+}
 
 
 # survivalRateDifference - Reports the difference of the obtained (discrete or continuous) survival rate from
