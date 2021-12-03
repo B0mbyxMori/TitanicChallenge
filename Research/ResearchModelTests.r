@@ -255,6 +255,11 @@ survivalRateDifferenceReturnsDouble <- function(testObtainedSurvivalRate) {
 ## END: confidenceScore Tests
 
 
+## START: survivalPrediction Tests
+
+## END: survivalPrediction Tests
+
+
 # Test Suite
 runTests <- function() {
 	runSurvivalRateTests()

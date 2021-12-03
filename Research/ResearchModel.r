@@ -84,5 +84,55 @@ survivalRateDifference <- function(obtainedSurvivalRate) {
 	return(obtainedSurvivalRate - overallSurvivalRate())
 }
 
+# TO DO: Will build survivalPrediction (as prototype) before building confidenceScore (refined product)
 # confidenceScore - Reports a precentage that guesses how bias the data point may be. The
 # higher the number, the more likely the data point may be bias.
+
+# survivalPrediction - Returns a survival prediction in the form of a 0 (passed on) or 1 (survived).
+survivalPrediction <- function(dataPoint) {
+}
+
+## TO DO: Build out file generator and helper functions.
+# selectDataPoint - Will read dataset one line at a time.
+
+# generateCSVfile - Returns CSV with two columns: PassengerId and Survived
+
+
+## REMOVE
+# Survived,Pclass,Name,Sex,Age,SibSp,Parch,Ticket,Fare,Cabin,Embarked
+##
+
+# 0,3,"Braund, Mr. Owen Harris",male,22,1,0,A/5 21171,7.25,,S
+# Pass (26.47 < 50.00)
+(survivalRate("Pclass", 3) + survivalRate("Sex", "male") + survivalRate("Age", (22 - 5), (22 + 5))) / 3
+
+# 1,3,"McDermott, Miss. Brigdet Delia",female,,0,0,330932,7.7875,,Q
+# Fail (49.22 < 50.00)
+(survivalRate("Pclass", 3) + survivalRate("Sex", "female") ) / 2
+
+
+# 1,2,"Smith, Miss. Marion Elsie",female,40,0,0,31418,13,,S
+# Pass (54.63 > 50.00)
+(survivalRate("Pclass", 2) + survivalRate("Sex", "female") + survivalRate("Age", (40 - 5), (40 + 5))) / 3
+
+# 0,1,"Widener, Mr. Harry Elkins",male,27,0,2,113503,211.5,C82,C
+# Pass (40.50 < 50.00)
+(survivalRate("Pclass", 1) + survivalRate("Sex", "male") + survivalRate("Age", (27 - 5), (27 + 5))) / 3
+
+# 0,3,"Peduzzi, Mr. Joseph",male,,0,0,A/5 2817,8.05,,S
+# Pass (21.56 < 50.00)
+(survivalRate("Pclass", 3) + survivalRate("Sex", "male")) / 2
+
+# 1,3,"Peter, Mrs. Catherine (Catherine Rizk)",female,,0,2,2668,22.3583,,C
+# Fail (49.22 < 50.00)
+(survivalRate("Pclass", 3) + survivalRate("Sex", "female")) / 2
+
+# 1,3,"Leeni, Mr. Fahim (""Philip Zenni"")",male,22,0,0,2620,7.225,,C
+# Fail (26.47 < 50.00)
+(survivalRate("Pclass", 3) + survivalRate("Sex", "male") + survivalRate("Age", (22 - 5), (22 + 5))) / 3
+
+# 1,3,"Jonsson, Mr. Carl",male,32,0,0,350417,7.8542,,S
+# Fail (28.70 < 50.00)
+(survivalRate("Pclass", 3) + survivalRate("Sex", "male") + survivalRate("Age", (32 - 5), (32 + 5))) / 3
+
+## REMOVE
