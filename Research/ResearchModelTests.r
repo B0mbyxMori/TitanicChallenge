@@ -23,7 +23,7 @@ runSurvivalRateTests <- function() {
 	print(populationPercentageReturnsDouble(matrix(c(0, 0, 0, 0), nrow = 2))) # Fake is double for now.
 	print(populationPercentageMissingListReturnsError())
 	print(survivalRateDifferenceReturnsDouble(double()))
-
+	print(selectLineReturnsList())
 }
 
 ## START: survivalRate Tests
@@ -258,6 +258,23 @@ survivalRateDifferenceReturnsDouble <- function(testObtainedSurvivalRate) {
 ## START: survivalPrediction Tests
 
 ## END: survivalPrediction Tests
+
+
+## START: selectLine Tests
+# NOTE: If params are added, test will break.
+selectLineReturnsList <- function() {
+	if(typeof(selectLine()) == "list") {
+		return(TRUE)
+	}
+
+	return(FALSE)
+}
+## END: selectLine Tests
+
+
+## START: counter Tests
+
+## END: counter Tests
 
 
 # Test Suite
