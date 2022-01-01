@@ -93,10 +93,6 @@ survivalRateDifference <- function(obtainedSurvivalRate) {
 # confidenceScore - Reports a precentage that guesses how bias the data point may be. The
 # higher the number, the more likely the data point may be bias.
 
-# survivalPrediction - Returns a survival prediction in the form of a 0 (passed on) or 1 (survived).
-survivalPrediction <- function(dataPoint) {
-}
-
 ## TO DO: FIGURE OUT RESPONSIBILITIES AND DEPENDENCIES
 ## TO DO: Build out file generator and helper functions.
 	## 1. Read and select line from file.
@@ -111,18 +107,17 @@ survivalPrediction <- function(dataPoint) {
 
 
 # colnames(...) - Back pocket function
-selectLine <- function(lineNumber) { # UPDATE: function(anyDataSet, lineNumber)
-	columnAndLineData = trainingSet[c(lineNumber),]
+selectLine <- function(dataSetLineNumber) { # UPDATE: function(anyDataSet, dataSetLineNumber)
+	columnAndLineData = trainingSet[c(dataSetLineNumber),] # columnAndLineData = anyDataSet[c(dataSetLineNumber),]
 
-	# return(columnAndLineData)
+	return(columnAndLineData)
 }
 
-## FIX: "Existing" dataset line name vs "generated/new" line name
+## ADD: Test organization and tests for new functions.
 
+# NOTE: Function's logic depends on the assumption dataSetLine has at least one non-NA data point.
 # generateLine <- function(dataSetLine) {
-	# What are your responsibilities and dependencies?
-	# Responsible for: Calling 'matcher' and calculating total survival rate
-
+	## START FIX: Determine best way to build list.
 	# TO DO: Place in seperate file and reference. NOTE: Once moved to a seperate file, remove
 	# as param for columnMatcher.
 	# referenceColumnList = list(
@@ -136,56 +131,81 @@ selectLine <- function(lineNumber) { # UPDATE: function(anyDataSet, lineNumber)
 	# 	list(columnName = "Cabin", quantitativeVariableType = "discrete"),
 	#	list(columnName = "Embarked", quantitativeVariableType = "discrete"),
 	# )
+	## END FIX: Determine best way to build list.
 
 	# totalSurvivalRate = double()
 	# totalSurvivalRatesCalculated = 0
 
-	# for(columnName in referenceColumnList) { # FIX: Will this for loop work with the way the list is built?
-		# FIX (?): Reverse/reduce if statement.
-		## FIX: Check for NAs/NULLs - character ""
 
-		# if(colname(columnAndData, referenceColumnList[columnName]) != columnName) {
-			# SKIP
+	# FIX: Design this alongside referenceColumnList.
+	# for(columnName in referenceColumnList) {
+		## Step 1: (Above in outer for loop) Correctly build columnReferenceList and
+		## loop over all columnNames.
+		## Step 2: Use columnName to choose correct column in dataSetLine (make list var containing dataSetColumn and variable)
+		## (Handled by survivalRateCaller) Step 3: Use columnName to identify if column is continuous or discrete. If is
+		## continuous, send dataSetList though logic to add variable2.
+		## (Handled by survivalRateCaller) Step 4: Call survivalRate(...)
+		## Step 5: Use survivalRate(...) double to calculate the totalSurvivalRate (so far) and increment
+		## totalSurvivalRatesCalculated by 1.
+		## Step 6: Fall out of loop and calculate the totalSurvivalRate.
+		## (Handled by Survived(...)) Step 7: If totalSurvivalRate >= 49.99, return 1. Else, return 0.
+		## (Handled by assembleLine(...)) Step 8: Generate line (a little hand waving for now).
+		## Step 9: Return assembledLine (more hand waving for now).
+
+		# columnAndData = dataSetLine[[columnName]] # Grab the column and data information.
+
+		# if(columnData[[1]] != "") {
+		# 	individualSurvivalRate = survivalRateCaller(columnAndData, referenceColumnList[[[columnName]quantitativeVariableType]])
+		# 	totalSurvivalRatesCalculated = totalSurvivalRatesCalculated + 1
+
+		# 	if(totalSurvivalRatesCalculated = 0) {
+		# 		totalSurvivalRate = individualSurvivalRate
+		# 	} else {
+		# 		totalSurvivalRate = totalSurvivalRate + individualSurvivalRate
+		# 	}
 		# }
-		# else {
-		# columnAndData = dataSetLine[columnName] # Grab the column and data information
-
-		# columnMatcher(columnAndData, referenceColumnList[[[columnName]quantitativeVariableType]])
-		# }
-
-		# totalSurvivalRatesCalculated = totalSurvivalRatesCalculated + 1
-		# totalSurvivalRate = totalSurvivalRate + individualSurvivalRate
 	# }
 
 	# totalSurvivalRate = (totalSurvivalRate / totalSurvivalRatesCalculated)
 
-	# assembledLine = assembleLine(dataSetLine[1] (?), ADD)
+	# survivalGuess = survivalPrediction(totalSurvivalRate)
+
+	# assembledLine = assembleLine(referenceColumnList[["PassengerId"]], survivalGuess)
 	# return(assembledLine) # Example: 89,1
 # }
 
-# FIX: Function name.
 # Time complexity: https://www.refsmmat.com/posts/2016-09-12-r-lists.html
-# columnMatcher <- function(columnAndData, quantitativeVariableType) {
-	# TO DO: Check continuous value range
+# NOTE: Worried about computation time.
+# survivalRateCaller <- function(columnAndData, quantitativeVariableType) {
+	# ADD: Check continuous value range.
 
+	# ADD: survivalRate(...) call logic.
 	# individualSurvivalRate = survivalRate(...)
 
 	# return(individualSurvivalRate)
 # }
 
-# assembleLine(passengerId, survived) {
-	# ADD: commas
+# assembleLine(passengerId, survivalGuess) {
+	# ADD: Commas.
 	# return(line)
 # }
 
-# generateFile <- function() { # UPDATE: function(anyDataSet)
-	# lineNumber = 1
-	# Responsible for: Kickoff sequence
-		# if(lineNumber > file line number)
-			# dataSetLine = selectLine(lineNumber) # selectLine(anyDataSet, lineNumber)
-			# generateLine(dataSetLine, lineNumber)
+# survivalPrediction <- function(totalSurvivalRate) {
+	# if(totalSurvivalRate >= 49.99) {
+		# return(1)
+	# }
 
-			# lineNumber = lineNumber + 1
+	# return(0)
+# }
+
+# generateFile <- function() { # UPDATE: function(anyDataSet)
+	# dataSetLineNumber = 1
+	## Responsible for: Kickoff sequence
+		# if(dataSetLineNumber > file line number)
+			# dataSetLine = selectLine(dataSetLineNumber) # selectLine(anyDataSet, dataSetLineNumber)
+			# generateLine(dataSetLine, dataSetLineNumber)
+
+			# dataSetLineNumber = dataSetLineNumber + 1
 # }
 
 selectLine(1)
