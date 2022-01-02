@@ -255,26 +255,54 @@ survivalRateDifferenceReturnsDouble <- function(testObtainedSurvivalRate) {
 ## END: confidenceScore Tests
 
 
-## START: survivalPrediction Tests
-
-## END: survivalPrediction Tests
-
-
-## START: selectLine Tests
+## START: selectDataSetLine Tests
 # NOTE: If params are added, test will break.
-selectLineReturnsList <- function() {
-	if(typeof(selectLine()) == "list") {
+selectDataSetLineReturnsList <- function() {
+	if(typeof(selectDataSetLine()) == "list") {
 		return(TRUE)
 	}
 
 	return(FALSE)
 }
-## END: selectLine Tests
+## END: selectDataSetLine Tests
 
 
-## START: counter Tests
+## TO DO: Add to test lists.
 
-## END: counter Tests
+## START: generateLine Tests
+# NOTE: Maybe function is too large, difficult to test.
+	# Required Tests:
+		# Verify list is returned.
+	# Extra Tests:
+		# "" Test (If run once with NA data point, what's the return?)
+## END: generateLine Tests
+
+
+## START: survivalRateCaller Tests
+	# Required Tests:
+		# UPDATE: After adding survivalRate(...) call logic.
+## END: survivalRateCaller Tests
+
+
+## START: assembleLine Tests
+	# Required Tests:
+		# Verify character is returned.
+	#Extra Tests:
+		# Verify returned character contains a comma between other chars.
+## END: assembleLine Tests
+
+
+## START: survivalPrediction Tests
+	# Required Tests:
+		# Verify 0 is returned if totalSurvivalRate is less than 49.99.
+		# Verify 1 is returned if totalSurivivalRate is greater or equal to 49.99.
+## END: survivalPrediction Tests
+
+
+## START: generateFile Tests
+	# Required Tests:
+		# Verify csv file is returned.
+## END: generateFile Tests
 
 
 # Test Suite

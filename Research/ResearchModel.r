@@ -87,35 +87,21 @@ survivalRateDifference <- function(obtainedSurvivalRate) {
 }
 
 
-## REMOVE
-
-# TO DO: Will build survivalPrediction (as prototype) before building confidenceScore (refined product)
 # confidenceScore - Reports a precentage that guesses how bias the data point may be. The
 # higher the number, the more likely the data point may be bias.
 
-## TO DO: FIGURE OUT RESPONSIBILITIES AND DEPENDENCIES
-## TO DO: Build out file generator and helper functions.
-	## 1. Read and select line from file.
-	## 2. Match data from line to column
-	## 3. Calculate prediction from functions already created.
-	## 4. Generate and add line to CSV file
-# selectDataPoint - Will read dataset one line at a time.
-
-# generateFile - Returns CSV with two columns: PassengerId and Survived
-
-## REMOVE
-
 
 # colnames(...) - Back pocket function
-selectLine <- function(dataSetLineNumber) { # UPDATE: function(anyDataSet, dataSetLineNumber)
+selectDataSetLine <- function(dataSetLineNumber) { # UPDATE: function(anyDataSet, dataSetLineNumber)
 	columnAndLineData = trainingSet[c(dataSetLineNumber),] # columnAndLineData = anyDataSet[c(dataSetLineNumber),]
 
 	return(columnAndLineData)
 }
 
-## ADD: Test organization and tests for new functions.
+## ADD: Test for new functions.
 
 # NOTE: Function's logic depends on the assumption dataSetLine has at least one non-NA data point.
+## FUNCTION DEPENDENCIES: survivalRateCaller(...)
 # generateLine <- function(dataSetLine) {
 	## START FIX: Determine best way to build list.
 	# TO DO: Place in seperate file and reference. NOTE: Once moved to a seperate file, remove
@@ -148,11 +134,11 @@ selectLine <- function(dataSetLineNumber) { # UPDATE: function(anyDataSet, dataS
 		## Step 5: Use survivalRate(...) double to calculate the totalSurvivalRate (so far) and increment
 		## totalSurvivalRatesCalculated by 1.
 		## Step 6: Fall out of loop and calculate the totalSurvivalRate.
-		## (Handled by Survived(...)) Step 7: If totalSurvivalRate >= 49.99, return 1. Else, return 0.
-		## (Handled by assembleLine(...)) Step 8: Generate line (a little hand waving for now).
+		## (Handled by survivalPrediction(...)) Step 7: If totalSurvivalRate >= 49.99, return 1. Else, return 0.
+		## (Handled by assembleLine(...)) Step 8: Generate line.
 		## Step 9: Return assembledLine (more hand waving for now).
 
-		# columnAndData = dataSetLine[[columnName]] # Grab the column and data information.
+		# columnAndData = dataSetLine[[columnName]]
 
 		# if(columnData[[1]] != "") {
 		# 	individualSurvivalRate = survivalRateCaller(columnAndData, referenceColumnList[[[columnName]quantitativeVariableType]])
@@ -174,20 +160,38 @@ selectLine <- function(dataSetLineNumber) { # UPDATE: function(anyDataSet, dataS
 	# return(assembledLine) # Example: 89,1
 # }
 
-# Time complexity: https://www.refsmmat.com/posts/2016-09-12-r-lists.html
+# List time complexity: https://www.refsmmat.com/posts/2016-09-12-r-lists.html
 # NOTE: Worried about computation time.
+## FUNCTION DEPENDENCIES: survivalRate(...)
 # survivalRateCaller <- function(columnAndData, quantitativeVariableType) {
+	# individualSurvivalRate = double()
 	# ADD: Check continuous value range.
 
+	## Step 1: Check if continuous or discrete. If discrete call survivalRate(colname(columnAndData), columnAndData[[1]]). Else...
+	## Step 2: Check data is greater than 5. If less, set variable1 to 0 and variable2 = (data * 2) and return. Else, set variable1
+	## to (data - 5) and variable2 to (data + 5) and return.
+
+	## REMOVE
 	# ADD: survivalRate(...) call logic.
 	# individualSurvivalRate = survivalRate(...)
+	## REMOVE
 
-	# return(individualSurvivalRate)
+	# if(quantitativeVariableType = "discrete") {
+		# return(survivalRate(colname(columnAndData), columnAndData[[1]])
+	# }
+
+	# if(quantitativeVariableType = "continuous") {
+		# if(columnAndData[[1]] <= 5) {
+			# return(survivalRate(colName(columnAndData), 0, (columnAndData[[1]] * 2)))
+		# }
+	# }
+
+	# return(survivalRate(colname(columnAndData), (columnAndData[[1]] - 5), (columnAndData[[1]] + 5)))
 # }
 
-# assembleLine(passengerId, survivalGuess) {
-	# ADD: Commas.
-	# return(line)
+# assembleLine <- function(passengerId, survivalGuess) {
+	# returnLine = paste(passengerId, ',', survivalGuess)
+	# return(returnLine)
 # }
 
 # survivalPrediction <- function(totalSurvivalRate) {
@@ -198,22 +202,28 @@ selectLine <- function(dataSetLineNumber) { # UPDATE: function(anyDataSet, dataS
 	# return(0)
 # }
 
+## FUNCTION DEPENDENCIES: selectDataSetLine(...), generateLine(...)
 # generateFile <- function() { # UPDATE: function(anyDataSet)
+	# survivalPredictionDataSet = file("survivalPredictionDataSet.csv")
+
+	# cat("PassengerId,Survived", file = survivalPredictionDataSet, sep = "\n")
+
 	# dataSetLineNumber = 1
 	## Responsible for: Kickoff sequence
-		# if(dataSetLineNumber > file line number)
-			# dataSetLine = selectLine(dataSetLineNumber) # selectLine(anyDataSet, dataSetLineNumber)
-			# generateLine(dataSetLine, dataSetLineNumber)
+		# if(dataSetLineNumber > dataSetTotalLineNumber) {
+			# dataSetLine = selectDataSetLine(dataSetLineNumber) # selectDataSetLine(anyDataSet, dataSetLineNumber)
+			# pushLine = generateLine(dataSetLine)
+			# cat(pushLine, file = survivalPredictionDataSet, sep = "\n")
 
 			# dataSetLineNumber = dataSetLineNumber + 1
+		# }
+
+	# return(survivalPredictionDataSet)
 # }
 
-selectLine(1)
-# selectLine(2)
-# selectLine(3)
-# selectLine(4)
-
-# selectLine(57)
+# selectDataSetLine(1)
 
 # dataLineCounter()
 # dataLineCounter(10)
+
+# generateFile() # generateFile(anyDataSet)
