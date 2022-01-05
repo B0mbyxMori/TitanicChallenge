@@ -23,7 +23,9 @@ runSurvivalRateTests <- function() {
 	print(populationPercentageReturnsDouble(matrix(c(0, 0, 0, 0), nrow = 2))) # Fake is double for now.
 	print(populationPercentageMissingListReturnsError())
 	print(survivalRateDifferenceReturnsDouble(double()))
-	print(selectLineReturnsList())
+	print(selectDataSetLineReturnsList(1))
+	print(survivalPredictionReturns0IftotalSurvialRateIsLessThanThreshold(48.50))
+	print(survivalPredictionReturns1IftotalSurvivalRateIsGreaterThanThreshold(51.50))
 }
 
 ## START: survivalRate Tests
@@ -257,8 +259,8 @@ survivalRateDifferenceReturnsDouble <- function(testObtainedSurvivalRate) {
 
 ## START: selectDataSetLine Tests
 # NOTE: If params are added, test will break.
-selectDataSetLineReturnsList <- function() {
-	if(typeof(selectDataSetLine()) == "list") {
+selectDataSetLineReturnsList <- function(testDataSetLineNumber) {
+	if(typeof(selectDataSetLine(testDataSetLineNumber)) == "list") {
 		return(TRUE)
 	}
 
@@ -293,9 +295,21 @@ selectDataSetLineReturnsList <- function() {
 
 
 ## START: survivalPrediction Tests
-	# Required Tests:
-		# Verify 0 is returned if totalSurvivalRate is less than 49.99.
-		# Verify 1 is returned if totalSurivivalRate is greater or equal to 49.99.
+survivalPredictionReturns0IftotalSurvialRateIsLessThanThreshold <- function(testTotalSurvivalRate) {
+	if(survivalPrediction(testTotalSurvivalRate) == 0) {
+		return(TRUE)
+	}
+
+	return(FALSE)
+}
+
+survivalPredictionReturns1IftotalSurvivalRateIsGreaterThanThreshold <- function(testTotalSurvivalRate) {
+	if(survivalPrediction(testTotalSurvivalRate) == 1) {
+		return(TRUE)
+	}
+
+	return(FALSE)
+}
 ## END: survivalPrediction Tests
 
 

@@ -194,13 +194,13 @@ selectDataSetLine <- function(dataSetLineNumber) { # UPDATE: function(anyDataSet
 	# return(returnLine)
 # }
 
-# survivalPrediction <- function(totalSurvivalRate) {
-	# if(totalSurvivalRate >= 49.99) {
-		# return(1)
-	# }
+survivalPrediction <- function(totalSurvivalRate) {
+	if(totalSurvivalRate >= 49.99) {
+		return(1)
+	}
 
-	# return(0)
-# }
+	return(0)
+}
 
 ## FUNCTION DEPENDENCIES: selectDataSetLine(...), generateLine(...)
 # generateFile <- function() { # UPDATE: function(anyDataSet)
@@ -213,7 +213,7 @@ selectDataSetLine <- function(dataSetLineNumber) { # UPDATE: function(anyDataSet
 		# if(dataSetLineNumber > dataSetTotalLineNumber) {
 			# dataSetLine = selectDataSetLine(dataSetLineNumber) # selectDataSetLine(anyDataSet, dataSetLineNumber)
 			# pushLine = generateLine(dataSetLine)
-			# cat(pushLine, file = survivalPredictionDataSet, sep = "\n")
+			# cat(pushLine, file = survivalPredictionDataSet, sep = "\n", append = TRUE)
 
 			# dataSetLineNumber = dataSetLineNumber + 1
 		# }
