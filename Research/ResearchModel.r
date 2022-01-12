@@ -9,15 +9,19 @@ survivalRate <- function(column = NULL, variable1 = NULL, variable2 = NULL) {
 		return(overallSurvivalRate())
 	}
 
+	## REMOVE
+	# TO DO: Remove double check and associated tests since data comes in as integer.
+	# Add tests for integer add on continuous check.
+	## REMOVE
 	if(missing(variable2)
 		&& typeof(column) == "character"
-		&& (typeof(variable1) == "character" || typeof(variable1) == "double")) {
+		&& (typeof(variable1) == "character" || typeof(variable1) == "double" || typeof(variable1) == "integer")) {
 		return(returnSurvivalRateMean(buildDiscreteSurvivalList(column, variable1)))
 	}
 
 	if(typeof(column) == "character"
-		&& typeof(variable1) == "double"
-		&& typeof(variable2) == "double") {
+		&& (typeof(variable1) == "double" || typeof(variable1) == "integer")
+		&& (typeof(variable2) == "double" || typeof(variable2) == "integer")) {
 		return(returnSurvivalRateMean(buildContinuousSurvivalList(column, variable1, variable2)))
 	}
 
@@ -163,31 +167,19 @@ selectDataSetLine <- function(dataSetLineNumber) { # UPDATE: function(anyDataSet
 # List time complexity: https://www.refsmmat.com/posts/2016-09-12-r-lists.html
 # NOTE: Worried about computation time.
 ## FUNCTION DEPENDENCIES: survivalRate(...)
-# survivalRateCaller <- function(columnAndData, quantitativeVariableType) {
-	# individualSurvivalRate = double()
-	# ADD: Check continuous value range.
+survivalRateCaller <- function(columnAndData, quantitativeVariableType) {
+	if(quantitativeVariableType == "discrete") {
+		return(survivalRate(colnames(columnAndData), columnAndData[[1]]))
+	}
 
-	## Step 1: Check if continuous or discrete. If discrete call survivalRate(colname(columnAndData), columnAndData[[1]]). Else...
-	## Step 2: Check data is greater than 5. If less, set variable1 to 0 and variable2 = (data * 2) and return. Else, set variable1
-	## to (data - 5) and variable2 to (data + 5) and return.
+	if(quantitativeVariableType == "continuous") {
+		if(columnAndData[[1]] < 5) {
+			return(survivalRate(colnames(columnAndData), 0, (columnAndData[[1]] * 2)))
+		}
+	}
 
-	## REMOVE
-	# ADD: survivalRate(...) call logic.
-	# individualSurvivalRate = survivalRate(...)
-	## REMOVE
-
-	# if(quantitativeVariableType = "discrete") {
-		# return(survivalRate(colname(columnAndData), columnAndData[[1]])
-	# }
-
-	# if(quantitativeVariableType = "continuous") {
-		# if(columnAndData[[1]] <= 5) {
-			# return(survivalRate(colName(columnAndData), 0, (columnAndData[[1]] * 2)))
-		# }
-	# }
-
-	# return(survivalRate(colname(columnAndData), (columnAndData[[1]] - 5), (columnAndData[[1]] + 5)))
-# }
+	return(survivalRate(colnames(columnAndData), (columnAndData[[1]] - 5), (columnAndData[[1]] + 5)))
+}
 
 # assembleLine <- function(passengerId, survivalGuess) {
 	# returnLine = paste(passengerId, ',', survivalGuess)
@@ -221,7 +213,15 @@ survivalPrediction <- function(totalSurvivalRate) {
 	# return(survivalPredictionDataSet)
 # }
 
-# selectDataSetLine(1)
+
+example = selectDataSetLine(64)
+print(example[6])
+# typeof(example[[1]])
+survivalRateCaller(example[5], "discrete")
+typeof(example[6])
+survivalRateCaller(example[6], "continuous")
+
+survivalRate("Age", 0, 8)
 
 # dataLineCounter()
 # dataLineCounter(10)

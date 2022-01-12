@@ -8,6 +8,7 @@ runSurvivalRateTests <- function() {
 	print(survivalRateNoArgumentsReturnsDouble())
 	print(survivalRateCharacterColumnCharacterTestVariable1ReturnsDouble(character(), character()))
 	print(survivalRateCharacterColumnDoubleTestVariable1ReturnsDouble(character(), double()))
+	print(survivalRateCharacterColumnIntegerTestVariableReturnsDouble(character(), integer()))
 	print(survivalRateCharacterColumnNotCharacterOrDoubleTestVariable1ReturnsExpectedError(character(), (!double() | !character())))
 	print(survivalRateNotCharacterColumnDoubleTestVariable1ReturnsExpectedError(!character(), double()))
 	print(survivalRateCharacterColumnDoubleTestVariable1DoubleTestVariable2ReturnsDouble(character(), double(), double()))
@@ -24,6 +25,11 @@ runSurvivalRateTests <- function() {
 	print(populationPercentageMissingListReturnsError())
 	print(survivalRateDifferenceReturnsDouble(double()))
 	print(selectDataSetLineReturnsList(1))
+	## TO DO: Make fakes for survivalRateCaller.
+	# print(survivalRateCallerReturnsDoubleForDiscreteData())
+	# print(survivalRateCallerReturnsDoubleForContinuousDataGreaterThanFive())
+	# print(survivalRateCallerReturnsDoubleForContinuousDataLessThanFive())
+
 	print(survivalPredictionReturns0IftotalSurvialRateIsLessThanThreshold(48.50))
 	print(survivalPredictionReturns1IftotalSurvivalRateIsGreaterThanThreshold(51.50))
 }
@@ -46,6 +52,14 @@ survivalRateCharacterColumnCharacterTestVariable1ReturnsDouble <- function(testC
 }
 
 survivalRateCharacterColumnDoubleTestVariable1ReturnsDouble <- function(testColumn, testVariable1) {
+	if(typeof(survivalRate(testColumn, testVariable1)) == "double") {
+		return(TRUE)
+	}
+
+	return(FALSE)
+}
+
+survivalRateCharacterColumnIntegerTestVariableReturnsDouble <- function(testColumn, testVariable1) {
 	if(typeof(survivalRate(testColumn, testVariable1)) == "double") {
 		return(TRUE)
 	}
@@ -281,8 +295,31 @@ selectDataSetLineReturnsList <- function(testDataSetLineNumber) {
 
 
 ## START: survivalRateCaller Tests
-	# Required Tests:
-		# UPDATE: After adding survivalRate(...) call logic.
+## NOTE: survivalRateCaller tests depend on survivalRate(...). If survivalRate(...) breaks,
+## these tests will also be affected.
+survivalRateCallerReturnsDoubleForDiscreteData <- function(testColumnAndData, testQuantitativeVariableType) {
+	if(typeof(survivalRateCaller(testColumnAndData, testQuantitativeVariableType)) == "double") {
+		return(TRUE)
+	}
+
+	return(FALSE)
+}
+
+survivalRateCallerReturnsDoubleForContinuousDataGreaterThanFive <- function(testColumnAndData, testQuantitativeVariableType) {
+	if(typeof(survivalRateCaller(testColumnAndData, testQuantitativeVariableType)) == "double") {
+		return(TRUE)
+	}
+
+	return(FALSE)
+}
+
+survivalRateCallerReturnsDoubleForContinuousDataLessThanFive <- function(testColumnAndData, testQuantitativeVariableType) {
+	if(typeof(survivalRateCaller(testColumnAndData, testQuantitativeVariableType)) == "double") {
+		return(TRUE)
+	}
+
+	return(FALSE)
+}
 ## END: survivalRateCaller Tests
 
 
