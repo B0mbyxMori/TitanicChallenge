@@ -25,11 +25,9 @@ runSurvivalRateTests <- function() {
 	print(populationPercentageMissingListReturnsError())
 	print(survivalRateDifferenceReturnsDouble(double()))
 	print(selectDataSetLineReturnsList(1))
-	## TO DO: Make fakes for survivalRateCaller.
-	# print(survivalRateCallerReturnsDoubleForDiscreteData())
-	# print(survivalRateCallerReturnsDoubleForContinuousDataGreaterThanFive())
-	# print(survivalRateCallerReturnsDoubleForContinuousDataLessThanFive())
-
+	print(survivalRateCallerReturnsDoubleForDiscreteData(columnAndDataFakeBuilder(64, "Sex", "female"), "discrete"))
+	print(survivalRateCallerReturnsDoubleForContinuousDataGreaterThanFive(columnAndDataFakeBuilder(64, "Age", 7), "continuous"))
+	print(survivalRateCallerReturnsDoubleForContinuousDataLessThanFive(columnAndDataFakeBuilder(64, "Age", 3), "continuous"))
 	print(survivalPredictionReturns0IftotalSurvialRateIsLessThanThreshold(48.50))
 	print(survivalPredictionReturns1IftotalSurvivalRateIsGreaterThanThreshold(51.50))
 }
@@ -297,6 +295,16 @@ selectDataSetLineReturnsList <- function(testDataSetLineNumber) {
 ## START: survivalRateCaller Tests
 ## NOTE: survivalRateCaller tests depend on survivalRate(...). If survivalRate(...) breaks,
 ## these tests will also be affected.
+
+## NOTE: If more ...fakeBuilders(...) are created, organize in different file.
+columnAndDataFakeBuilder <- function(fakePassengerId, fakeColumn, fakeData) {
+	fake = data.frame(fakeData)
+	names(fake)[1] = as.character(fakeColumn)
+	row.names(fake) = fakePassengerId
+
+	return(fake)
+}
+
 survivalRateCallerReturnsDoubleForDiscreteData <- function(testColumnAndData, testQuantitativeVariableType) {
 	if(typeof(survivalRateCaller(testColumnAndData, testQuantitativeVariableType)) == "double") {
 		return(TRUE)

@@ -213,16 +213,6 @@ survivalPrediction <- function(totalSurvivalRate) {
 	# return(survivalPredictionDataSet)
 # }
 
-
-example = selectDataSetLine(64)
-print(example[6])
-# typeof(example[[1]])
-survivalRateCaller(example[5], "discrete")
-typeof(example[6])
-survivalRateCaller(example[6], "continuous")
-
-survivalRate("Age", 0, 8)
-
 # dataLineCounter()
 # dataLineCounter(10)
 
