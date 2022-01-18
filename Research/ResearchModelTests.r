@@ -1,7 +1,7 @@
 # trainingSet <- read.csv("../Datasets/train.csv")
 researchModel <- source("ResearchModel.r")
 
-# NOTE: Remove repeated code and review code.
+# NOTE: Remove repeated code and review code. Some tests are rigid.
 # TO DO: Printed statement display function name with pass/fail information.
 # TO DO: Separate functions.
 runSurvivalRateTests <- function() {
@@ -25,9 +25,9 @@ runSurvivalRateTests <- function() {
 	print(populationPercentageMissingListReturnsError())
 	print(survivalRateDifferenceReturnsDouble(double()))
 	print(selectDataSetLineReturnsList(1))
-	print(survivalRateCallerReturnsDoubleForDiscreteData(columnAndDataFakeBuilder(64, "Sex", "female"), "discrete"))
-	print(survivalRateCallerReturnsDoubleForContinuousDataGreaterThanFive(columnAndDataFakeBuilder(64, "Age", 7), "continuous"))
-	print(survivalRateCallerReturnsDoubleForContinuousDataLessThanFive(columnAndDataFakeBuilder(64, "Age", 3), "continuous"))
+	print(survivalRateCallerReturnsDoubleForDiscreteData("Sex", "female", "discrete"))
+	print(survivalRateCallerReturnsDoubleForContinuousDataGreaterThanFive("Age", 7, "continuous"))
+	print(survivalRateCallerReturnsDoubleForContinuousDataLessThanFive("Age", 3, "continuous"))
 	print(survivalPredictionReturns0IftotalSurvialRateIsLessThanThreshold(48.50))
 	print(survivalPredictionReturns1IftotalSurvivalRateIsGreaterThanThreshold(51.50))
 }
@@ -297,32 +297,32 @@ selectDataSetLineReturnsList <- function(testDataSetLineNumber) {
 ## these tests will also be affected.
 
 ## NOTE: If more ...fakeBuilders(...) are created, organize in different file.
-columnAndDataFakeBuilder <- function(fakePassengerId, fakeColumn, fakeData) {
-	fake = data.frame(fakeData)
-	names(fake)[1] = as.character(fakeColumn)
-	row.names(fake) = fakePassengerId
+# columnAndDataFakeBuilder <- function(fakePassengerId, fakeColumn, fakeData) {
+# 	fake = data.frame(fakeData)
+# 	names(fake)[1] = as.character(fakeColumn)
+# 	row.names(fake) = fakePassengerId
 
-	return(fake)
-}
+# 	return(fake)
+# }
 
-survivalRateCallerReturnsDoubleForDiscreteData <- function(testColumnAndData, testQuantitativeVariableType) {
-	if(typeof(survivalRateCaller(testColumnAndData, testQuantitativeVariableType)) == "double") {
+survivalRateCallerReturnsDoubleForDiscreteData <- function(testColumn, testData, testQuantitativeVariableType) {
+	if(typeof(survivalRateCaller(testColumn, testData, testQuantitativeVariableType)) == "double") {
 		return(TRUE)
 	}
 
 	return(FALSE)
 }
 
-survivalRateCallerReturnsDoubleForContinuousDataGreaterThanFive <- function(testColumnAndData, testQuantitativeVariableType) {
-	if(typeof(survivalRateCaller(testColumnAndData, testQuantitativeVariableType)) == "double") {
+survivalRateCallerReturnsDoubleForContinuousDataGreaterThanFive <- function(testColumn, testData, testQuantitativeVariableType) {
+	if(typeof(survivalRateCaller(testColumn, testData, testQuantitativeVariableType)) == "double") {
 		return(TRUE)
 	}
 
 	return(FALSE)
 }
 
-survivalRateCallerReturnsDoubleForContinuousDataLessThanFive <- function(testColumnAndData, testQuantitativeVariableType) {
-	if(typeof(survivalRateCaller(testColumnAndData, testQuantitativeVariableType)) == "double") {
+survivalRateCallerReturnsDoubleForContinuousDataLessThanFive <- function(testColumn, testData, testQuantitativeVariableType) {
+	if(typeof(survivalRateCaller(testColumn, testData, testQuantitativeVariableType)) == "double") {
 		return(TRUE)
 	}
 
