@@ -141,10 +141,8 @@ generateLine <- function(dataSetLine) {
 
 		data = dataSetLine[[referenceColumn[[1]]]]
 
-		if(data != "") { # Error on passenger 6. # || !is.na(data)
-			# Error:  missing value where TRUE/FALSE needed
+		if(!(is.null(data)) && !(is.na(data))) {
 			individualSurvivalRate = survivalRateCaller(referenceColumn[[1]], data, referenceColumn[[2]])
-			# print(individualSurvivalRate)
 			totalSurvivalRatesCalculated = totalSurvivalRatesCalculated + 1
 
 			if(totalSurvivalRatesCalculated == 0) {
@@ -153,6 +151,7 @@ generateLine <- function(dataSetLine) {
 				totalSurvivalRate = totalSurvivalRate + individualSurvivalRate
 			}
 		}
+
 	}
 
 	totalSurvivalRate = (totalSurvivalRate / totalSurvivalRatesCalculated)
@@ -160,9 +159,7 @@ generateLine <- function(dataSetLine) {
 	survivalGuess = survivalPrediction(totalSurvivalRate)
 
 	assembledLine = assembleLine(dataSetLine[[1]], survivalGuess)
-	return(assembledLine) # Example: 89,1
-
-	# return(totalSurvivalRate)
+	return(assembledLine)
 }
 
 # List time complexity: https://www.refsmmat.com/posts/2016-09-12-r-lists.html
@@ -218,6 +215,13 @@ survivalPrediction <- function(totalSurvivalRate) {
 # dataLineCounter(10)
 
 # generateFile() # generateFile(anyDataSet)
+print(generateLine(selectDataSetLine(1)))
+print(generateLine(selectDataSetLine(2)))
+print(generateLine(selectDataSetLine(3)))
+print(generateLine(selectDataSetLine(4)))
+print(generateLine(selectDataSetLine(5)))
+
+## Issue with: Age, Ticket
 exampleLine = selectDataSetLine(6)
 generateLine(exampleLine)
 
