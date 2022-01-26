@@ -1,4 +1,3 @@
-# TO DO: Deal with NAs
 # FIX: Update functions to accept any dataset
 trainingSet <- read.csv("../Datasets/train.csv")
 testingSet <- read.csv("../Datasets/test.csv")
@@ -9,10 +8,6 @@ survivalRate <- function(column = NULL, variable1 = NULL, variable2 = NULL) {
 		return(overallSurvivalRate())
 	}
 
-	## REMOVE
-	# TO DO: Remove double check and associated tests since data comes in as integer.
-	# Add tests for integer add on continuous check.
-	## REMOVE
 	if(missing(variable2)
 		&& typeof(column) == "character"
 		&& (typeof(variable1) == "character" || typeof(variable1) == "double" || typeof(variable1) == "integer")) {
@@ -45,7 +40,6 @@ returnSurvivalRateMean <- function(obtainedList = NULL) {
 	}
 
 	# TO DO: Create verify column function and call it here
-
 	mean(obtainedList$trainingSet.Survived) * 100
 }
 
@@ -102,8 +96,6 @@ selectDataSetLine <- function(dataSetLineNumber) { # UPDATE: function(anyDataSet
 	return(columnAndLineData)
 }
 
-## ADD: Test for new functions.
-
 # NOTE: Function's logic depends on the assumption dataSetLine has at least one non-NA data point.
 ## FUNCTION DEPENDENCIES: survivalRateCaller(...)
 generateLine <- function(dataSetLine) {
@@ -115,7 +107,6 @@ generateLine <- function(dataSetLine) {
 		c(columnName = "Age", quantitativeVariableType = "continuous"),
 		c(columnName = "SibSp", quantitativeVariableType = "discrete"),
 		c(columnName = "Parch", quantitativeVariableType = "discrete"),
-		# c(columnName = "Ticket", quantitativeVariableType = "continuous"),
 		c(columnName = "Fare", quantitativeVariableType = "continuous"),
 		c(columnName = "Cabin", quantitativeVariableType = "discrete"),
 		c(columnName = "Embarked", quantitativeVariableType = "discrete")
@@ -124,23 +115,10 @@ generateLine <- function(dataSetLine) {
 	totalSurvivalRate = 0
 	totalSurvivalRatesCalculated = 0
 
-	# FIX: Design this alongside referenceColumnList.
 	for(referenceColumn in referenceColumnList) {
-		## Step 1: (Above in outer for loop) Correctly build columnReferenceList and
-		## loop over all referenceColumns.
-		## Step 2: Use referenceColumn to choose correct column in dataSetLine (make list var containing dataSetColumn and variable)
-		## (Handled by survivalRateCaller) Step 3: Use referenceColumn to identify if column is continuous or discrete. If is
-		## continuous, send dataSetList though logic to add variable2.
-		## (Handled by survivalRateCaller) Step 4: Call survivalRate(...)
-		## Step 5: Use survivalRate(...) double to calculate the totalSurvivalRate (so far) and increment
-		## totalSurvivalRatesCalculated by 1.
-		## Step 6: Fall out of loop and calculate the totalSurvivalRate.
-		## (Handled by survivalPrediction(...)) Step 7: If totalSurvivalRate >= 49.99, return 1. Else, return 0.
-		## (Handled by assembleLine(...)) Step 8: Generate line.
-		## Step 9: Return assembledLine (more hand waving for now).
-
 		data = dataSetLine[[referenceColumn[[1]]]]
 
+		# NOTE: This logic is not tested yet.
 		if(!(is.null(data)) && !(is.na(data))) {
 			individualSurvivalRate = survivalRateCaller(referenceColumn[[1]], data, referenceColumn[[2]])
 			totalSurvivalRatesCalculated = totalSurvivalRatesCalculated + 1
@@ -151,7 +129,6 @@ generateLine <- function(dataSetLine) {
 				totalSurvivalRate = totalSurvivalRate + individualSurvivalRate
 			}
 		}
-
 	}
 
 	totalSurvivalRate = (totalSurvivalRate / totalSurvivalRatesCalculated)
@@ -162,8 +139,6 @@ generateLine <- function(dataSetLine) {
 	return(assembledLine)
 }
 
-# List time complexity: https://www.refsmmat.com/posts/2016-09-12-r-lists.html
-# NOTE: Worried about computation time.
 ## FUNCTION DEPENDENCIES: survivalRate(...)
 survivalRateCaller <- function(column, data, quantitativeVariableType) {
 	if(quantitativeVariableType == "discrete") {
@@ -180,7 +155,7 @@ survivalRateCaller <- function(column, data, quantitativeVariableType) {
 }
 
 assembleLine <- function(passengerId, survivalGuess) {
-	returnLine = paste(passengerId, ',', survivalGuess)
+	returnLine = paste(passengerId, ",", survivalGuess, sep = "")
 	return(returnLine)
 }
 
@@ -193,37 +168,26 @@ survivalPrediction <- function(totalSurvivalRate) {
 }
 
 ## FUNCTION DEPENDENCIES: selectDataSetLine(...), generateLine(...)
-# generateFile <- function() { # UPDATE: function(anyDataSet)
-	# survivalPredictionDataSet = file("survivalPredictionDataSet.csv")
+generateFile <- function() { # UPDATE: function(anyDataSet)
+	file.create("../Datasets/survivalPredictionDataSet.csv")
+	survivalPredictionDataSet = file("../Datasets/survivalPredictionDataSet.csv")
 
-	# cat("PassengerId,Survived", file = survivalPredictionDataSet, sep = "\n")
+	cat("PassengerId,Survived", file = survivalPredictionDataSet, sep = "\n")
 
-	# dataSetLineNumber = 1
-	## Responsible for: Kickoff sequence
-		# if(dataSetLineNumber > dataSetTotalLineNumber) {
-			# dataSetLine = selectDataSetLine(dataSetLineNumber) # selectDataSetLine(anyDataSet, dataSetLineNumber)
-			# pushLine = generateLine(dataSetLine)
-			# cat(pushLine, file = survivalPredictionDataSet, sep = "\n", append = TRUE)
+	connection = file("../Datasets/train.csv")
+	dataSetTotalLineNumber = length(readLines(connection)) - 1
+	close(connection)
 
-			# dataSetLineNumber = dataSetLineNumber + 1
-		# }
+	currentDataSetLineNumber = 1
 
-	# return(survivalPredictionDataSet)
-# }
+	while(currentDataSetLineNumber <= dataSetTotalLineNumber) {
+		dataSetLine = selectDataSetLine(currentDataSetLineNumber)
+		pushLine = generateLine(dataSetLine)
 
-# dataLineCounter()
-# dataLineCounter(10)
+		cat(pushLine, file = "../Datasets/survivalPredictionDataSet.csv", sep = "\n", fill = FALSE, labels = NULL, append = TRUE)
+		currentDataSetLineNumber = currentDataSetLineNumber + 1
+	}
+}
 
-# generateFile() # generateFile(anyDataSet)
-print(generateLine(selectDataSetLine(1)))
-print(generateLine(selectDataSetLine(2)))
-print(generateLine(selectDataSetLine(3)))
-print(generateLine(selectDataSetLine(4)))
-print(generateLine(selectDataSetLine(5)))
-
-## Issue with: Age, Ticket
-exampleLine = selectDataSetLine(6)
-generateLine(exampleLine)
-
-# survivalRateCaller("Sex", "male", "discrete")
-# survivalRateCaller("Age", 3, "continuous")
+## Kick off
+generateFile()

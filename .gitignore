@@ -1,3 +1,4 @@
 # Contains datasets from Kaggle.com's Titanic ML Competition
 # that do not need to be included in repo.
-Datasets/
+Datasets/test.csv
+Datasets/train.csv
