@@ -104,11 +104,11 @@ generateLine <- function(dataSetLine) {
 	referenceColumnList = list(
 		c(columnName = "Pclass", quantitativeVariableType = "discrete"),
 		c(columnName = "Sex", quantitativeVariableType = "discrete"),
-		# c(columnName = "Age", quantitativeVariableType = "continuous")#,
+		c(columnName = "Age", quantitativeVariableType = "continuous"),
 		c(columnName = "SibSp", quantitativeVariableType = "discrete"),
-		# c(columnName = "Parch", quantitativeVariableType = "discrete"),
+		c(columnName = "Parch", quantitativeVariableType = "discrete"),
 		c(columnName = "Fare", quantitativeVariableType = "continuous"),
-		# c(columnName = "Cabin", quantitativeVariableType = "discrete"),
+		c(columnName = "Cabin", quantitativeVariableType = "discrete"),
 		c(columnName = "Embarked", quantitativeVariableType = "discrete")
 	)
 
@@ -124,10 +124,14 @@ generateLine <- function(dataSetLine) {
 			totalSurvivalRatesCalculated = totalSurvivalRatesCalculated + 1
 
 			if(totalSurvivalRatesCalculated == 0) {
-				# How would an NaN be produced here? (Or what would cause an NaN here?)
 				totalSurvivalRate = individualSurvivalRate
 			} else {
-				totalSurvivalRate = totalSurvivalRate + individualSurvivalRate
+				if(!(is.na(individualSurvivalRate))) {
+					totalSurvivalRate = totalSurvivalRate + individualSurvivalRate
+				} else {
+					# Decrement totalSurvivalRatesCalculated if individualSurvivalRate is na.
+					totalSurvivalRatesCalculated = totalSurvivalRatesCalculated - 1
+				}
 			}
 		}
 	}
