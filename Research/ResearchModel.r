@@ -1,8 +1,7 @@
-# FIX: Update functions to accept any dataset
 trainingSet <- read.csv("../Datasets/train.csv")
 testingSet <- read.csv("../Datasets/test.csv")
 
-# survivalRate - Reports survival rate
+# survivalRate - Reports survival rate.
 survivalRate <- function(column = NULL, variable1 = NULL, variable2 = NULL) {
 	if(missing(column) && missing(variable1) && missing(variable2)) {
 		return(overallSurvivalRate())
@@ -20,10 +19,10 @@ survivalRate <- function(column = NULL, variable1 = NULL, variable2 = NULL) {
 		return(returnSurvivalRateMean(buildContinuousSurvivalList(column, variable1, variable2)))
 	}
 
-	stop("Bad argument(s).") # TO DO: Deliver detailed error message.
+	stop("Bad argument(s).")
 }
 
-# No arguments - returns survival rate of entire dataset
+# overallSurvivalRate - Returns survival rate of entire dataset.
 overallSurvivalRate <- function() {
 	mean(trainingSet$Survived) * 100
 }
@@ -36,16 +35,13 @@ returnSurvivalRateMean <- function(obtainedList = NULL) {
 	}
 
 	if(typeof(obtainedList) != "list") {
-		stop("Bad argument.") # TO DO: Deliver detailed error message
+		stop("Bad argument.")
 	}
 
-	# TO DO: Create verify column function and call it here
 	mean(obtainedList$trainingSet.Survived) * 100
 }
 
-# Column, variable1 (for discrete data) - returns list with 2 columns: the
-# column filtered to include variable1 and Survived.
-# unique(trainingSet$Sex) # Back pocket function
+# buildDiscreteSurvivalList - Returns list with 2 columns: the column filtered to include variable1 and Survived.
 buildDiscreteSurvivalList <- function(column, variable1) {
 	completeDiscreteSurvivalDataFrame = na.omit(data.frame(trainingSet$Survived, trainingSet[column]))
 	subsetDiscreteSurvivalList = subset(completeDiscreteSurvivalDataFrame,
@@ -54,8 +50,8 @@ buildDiscreteSurvivalList <- function(column, variable1) {
 	return(subsetDiscreteSurvivalList)
 }
 
-# Column, low_numeric, high_numeric (for continuous data) - returns list with 2 columns:
-# the column filtered to include data between variable1 and variable2 inclusive and Survived.
+# buildContinuousSurvivalList - returns list with 2 columns: the column filtered to include data
+# between variable1 and variable2 inclusive and Survived.
 buildContinuousSurvivalList <- function(column, variable1, variable2) {
 	completeContinousSurvivalDataFrame = na.omit(data.frame(trainingSet$Survived, trainingSet[column]))
 	subsetContinousSurvivalList = subset(completeContinousSurvivalDataFrame,
@@ -67,10 +63,8 @@ buildContinuousSurvivalList <- function(column, variable1, variable2) {
 # populationPercentage - Returns the percentage the obtained population is of the total population.
 populationPercentage <- function(obtainedList) {
 	if(missing(obtainedList)) {
-		stop("Requires list.") # TO DO: Deliver detailed error message
+		stop("Requires list.")
 	}
-
-	# TO DO: Create verify column function and call it here (NOTE: Will break populationPercentageReturnsDouble test b/c fake.)
 
 	populationPercentage = (nrow(obtainedList) / nrow(trainingSet)) * 100
 
@@ -85,22 +79,16 @@ survivalRateDifference <- function(obtainedSurvivalRate) {
 }
 
 
-# confidenceScore - Reports a precentage that guesses how bias the data point may be. The
-# higher the number, the more likely the data point may be bias.
-
-
-# colnames(...) - Back pocket function
-selectDataSetLine <- function(dataSetLineNumber) { # UPDATE: function(anyDataSet, dataSetLineNumber)
-	columnAndLineData = testingSet[c(dataSetLineNumber),] # columnAndLineData = anyDataSet[c(dataSetLineNumber),]
+# selectDataSetLine - Selects line from data set.
+selectDataSetLine <- function(dataSetLineNumber) {
+	columnAndLineData = testingSet[c(dataSetLineNumber),]
 
 	return(columnAndLineData)
 }
 
+# generateLine - Generates a line to be added to be appended to the prediction csv file.
 # NOTE: Function's logic depends on the assumption dataSetLine has at least one non-NA data point.
-## FUNCTION DEPENDENCIES: survivalRateCaller(...)
 generateLine <- function(dataSetLine) {
-	# TO DO: Place in seperate file and reference. NOTE: Once moved to a seperate file, remove
-	# as param for columnMatcher.
 	referenceColumnList = list(
 		c(columnName = "Pclass", quantitativeVariableType = "discrete"),
 		c(columnName = "Sex", quantitativeVariableType = "discrete"),
@@ -144,7 +132,7 @@ generateLine <- function(dataSetLine) {
 	return(assembledLine)
 }
 
-## FUNCTION DEPENDENCIES: survivalRate(...)
+# survivalRateCaller - Generates a call to survivalRate based on the data and quantitative type.
 survivalRateCaller <- function(column, data, quantitativeVariableType) {
 	if(quantitativeVariableType == "discrete") {
 		return(survivalRate(column, data))
@@ -159,6 +147,7 @@ survivalRateCaller <- function(column, data, quantitativeVariableType) {
 	return(survivalRate(column, (data - 5), (data + 5)))
 }
 
+# assembleLine - Assembles a line to be appended to the prediction csv file.
 assembleLine <- function(passengerId, survivalGuess) {
 	returnLine = paste(passengerId, ",", survivalGuess, sep = "")
 	return(returnLine)
@@ -172,14 +161,14 @@ survivalPrediction <- function(totalSurvivalRate) {
 	return(0)
 }
 
-## FUNCTION DEPENDENCIES: selectDataSetLine(...), generateLine(...)
-generateFile <- function() { # UPDATE: function(anyDataSet)
+# generateFile - Kick off sequence that generates the prediction csv file.
+generateFile <- function() {
 	file.create("../Datasets/survivalPredictionDataSet.csv")
 	survivalPredictionDataSet = file("../Datasets/survivalPredictionDataSet.csv")
 
 	cat("PassengerId,Survived", file = survivalPredictionDataSet, sep = "\n")
 
-	connection = file("../Datasets/test.csv") # connection = file("../Datasets/train.csv")
+	connection = file("../Datasets/test.csv")
 	dataSetTotalLineNumber = length(readLines(connection)) - 1
 	close(connection)
 
